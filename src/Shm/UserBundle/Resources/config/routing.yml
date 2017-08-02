@@ -1,0 +1,7 @@
+# src/Shm/UserBundle/Resources/config/routing.yml
+
+ShmUserBundle:
+  path: /
+  defaults: { _controller: "ShmUserBundle:Page:index" }
+  requirements:
+    methods: GET
