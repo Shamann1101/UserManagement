@@ -1,0 +1,29 @@
+{# src/Shm/UserBundle/Resources/views/Page/groups.html.twig #}
+{% extends 'ShmUserBundle::corner.html.twig' %}
+
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Add Users</th>
+            <th>Delete Users</th>
+            <th>View Users</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Admins</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,35 @@
+{# src/Shm/UserBundle/Resources/views/Page/users.html.twig #}
+{% extends 'ShmUserBundle::corner.html.twig' %}
+
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Email</th>
+            <th>State</th>
+            <th>Create date</th>
+            <th>Group</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Admin</td>
+            <td>Admin</td>
+            <td>mail@mail.com</td>
+            <td>Active</td>
+            <td>1970-01-01</td>
+            <td>Admins</td>
+        </tr>
+        <tr>
+            <td>Malkovich</td>
+            <td>John</td>
+            <td>john@malkovich.com</td>
+            <td>Active</td>
+            <td>2017-08-03</td>
+            <td>Users</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
