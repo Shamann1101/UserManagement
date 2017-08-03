@@ -1,7 +1,19 @@
 # src/Shm/UserBundle/Resources/config/routing.yml
 
-ShmUserBundle:
+ShmUserBundle_homepage:
   path: /
   defaults: { _controller: "ShmUserBundle:Page:index" }
+  requirements:
+    methods: GET
+
+ShmUserBundle_users:
+  path: /users/
+  defaults: { _controller: "ShmUserBundle:Page:users" }
+  requirements:
+    methods: GET
+
+ShmUserBundle_groups:
+  path: /groups/
+  defaults: { _controller: "ShmUserBundle:Page:groups" }
   requirements:
     methods: GET
