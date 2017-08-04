@@ -24,7 +24,7 @@ ShmUserBundle_group_new:
   requirements:
     methods: GET
 
-ShmUserBundle_group_show:
+ShmUserBundle_group_edit:
   path: /groups/{id}
   defaults: { _controller: "ShmUserBundle:Group:edit" }
   requirements:
