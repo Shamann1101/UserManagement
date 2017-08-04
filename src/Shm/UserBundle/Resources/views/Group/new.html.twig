@@ -1,0 +1,18 @@
+{# src/Shm/UserBundle/Resources/views/Group/new.html.twig #}
+{% extends "ShmUserBundle::corner.html.twig" %}
+
+{% block title %}
+    Add new group
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, { 'action': path('ShmUserBundle_group_new'), 'method': 'POST', 'attr': {'class': 'Shm'} }) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.rules) }}
+
+    {{ form_rest(form) }}
+
+    <input type="submit" value="Save" />
+{% endblock %}

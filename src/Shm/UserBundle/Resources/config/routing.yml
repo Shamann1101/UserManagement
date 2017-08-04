@@ -17,3 +17,16 @@ ShmUserBundle_groups:
   defaults: { _controller: "ShmUserBundle:Page:groups" }
   requirements:
     methods: GET
+
+ShmUserBundle_group_new:
+  path: /groups/new/
+  defaults: { _controller: "ShmUserBundle:Group:new" }
+  requirements:
+    methods: GET
+
+ShmUserBundle_group_show:
+  path: /groups/{id}
+  defaults: { _controller: "ShmUserBundle:Group:edit" }
+  requirements:
+    methods: GET
+    id: \d+
