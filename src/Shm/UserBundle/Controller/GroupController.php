@@ -2,6 +2,7 @@
 
 namespace Shm\UserBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Shm\UserBundle\Entity\Group;
 use Shm\UserBundle\Form\GroupType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,17 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class GroupController extends Controller
 {
     /**
-     * Show a Group Entity
+     * Show and edit a Group Entity
      *
      * @param $id
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction($id = null)
     {
-        $enquiry = new Group();
-
-        $form = $this->createForm(GroupType::class, $enquiry);
-
         $em = $this->getDoctrine()->getManager();
 
         $group = $em->getRepository("ShmUserBundle:Group")->find($id);
@@ -28,19 +25,30 @@ class GroupController extends Controller
             throw $this->createNotFoundException("Unable to find Group");
         }
 
-        return $this->render("edit.html.twig", array(
+        return $this->render("@ShmUser/Group/edit.html.twig", array(
             "group" => $group,
         ));
     }
 
     /**
-     * Show a Group Entity
+     * Create new Group Entity
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $enquiry = new Group();
 
         $form = $this->createForm(GroupType::class, $enquiry);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()
+                ->getManager();
+            $em->persist($enquiry);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('ShmUserBundle_groups'));
+        }
 
         return $this->render("@ShmUser/Group/new.html.twig", array(
             "form" => $form->createView(),

@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form, { 'action': path('ShmUserBundle_group_new'), 'method': 'POST', 'attr': {'class': 'Shm'} }) }}
-    {{ form_widget(form.name, {'value' : group.name}) }}
+    {{ form_start(form, { 'action': path('ShmUserBundle_group_edit'), 'method': 'POST', 'attr': {'class': 'Shm'} }) }}
+    {{ form_errors(form) }}
+    {{ form_row(group.name) }}
     {{ form_rest(form) }}
 
     <input type="submit" value="Save" />

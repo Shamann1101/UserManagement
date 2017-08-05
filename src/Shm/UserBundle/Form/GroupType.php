@@ -16,11 +16,6 @@ class GroupType extends AbstractType
     {
         $builder->add("name", TextType::class);
         $builder->add("rules", IntegerType::class);
-/*
-        $builder->add("add", CheckboxType::class);
-        $builder->add("delete", CheckboxType::class);
-        $builder->add("view", CheckboxType::class);
-*/
     }
 
     public function configureOptions(OptionsResolver $resolver)
