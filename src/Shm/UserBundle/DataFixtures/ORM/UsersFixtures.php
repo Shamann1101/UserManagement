@@ -14,8 +14,7 @@ class UsersFixtures implements FixtureInterface
         $user1->setLastName("Admin");
         $user1->setEmail("mail@mail.com");
         $user1->setState(true);
-        $user1->setDateCreate("1970-01-01");
-        $user1->setGroup(1);
+//        $user1->setGroup($manager->merge($this->));
         $manager->persist($user1);
 
         $user2 = new User();
@@ -23,8 +22,6 @@ class UsersFixtures implements FixtureInterface
         $user2->setLastName("Malkovich");
         $user2->setEmail("john@malkovich.com");
         $user2->setState(true);
-        $user2->setDateCreate("2017-08-03");
-        $user2->setGroup(2);
         $manager->persist($user2);
 
         $manager->flush();

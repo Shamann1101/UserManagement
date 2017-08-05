@@ -2,5 +2,42 @@
 {% extends 'ShmUserBundle::corner.html.twig' %}
 
 {% block body %}
-    Blog homepage
+    <h2>PHP developer test task</h2>
+
+    <h3>Subject:</h3>
+    <p>Create an API which allow users and groups management Out of scope: authentication, and roles management; forms and views
+
+    <h3>User Stories:</h3>
+    <ul>
+    <li>I want to create a user who is included in a group
+    <li>I want to check if this user exists and is active
+    <li>I want to modify the list of users of a group
+    </ul>
+
+    <h3>Entities:</h3>
+    <blockquote>
+    User: email, last name, first name, state (active/ non active), creation date<br>
+    Group: name
+    </blockquote>
+
+    <h3>API methods:</h3>
+    <blockquote>
+    /users/ fetch(retrieve) list of users<br>
+    /users/ create a user<br>
+    /users/id/ fetch info of a user<br>
+    /users/id/ modify users info<br>
+    /groups/ fetch list of groups<br>
+    /groups/ create a group<br>
+    /groups/id/ modify group info
+    </blockquote>
+
+    <h3>Bonus:</h3>
+    <blockquote>
+    to perform a functional test<br>
+    add validation constraints/rules
+    </blockquote>
+
+    <h3>Framework:</h3>
+    <p>any modern MVC PHP framework - Symfony, Yii, Laravel or similar
+
 {% endblock %}

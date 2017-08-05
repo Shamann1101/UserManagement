@@ -4,6 +4,10 @@
 namespace Shm\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 
 /**
  * @ORM\Entity
@@ -27,6 +31,21 @@ class Group
      * @ORM\Column(type="integer")
      */
     protected $rules;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="group")
+     */
+    protected $users;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('rules', new NotBlank());
+        $metadata->addPropertyConstraint('name', new NotBlank());
+        $metadata->addPropertyConstraint('name',  new Length(array(
+            "max" => 10,
+        )));
+    }
 
     /**
      * Get id
@@ -84,5 +103,44 @@ class Group
     public function getRules()
     {
         return $this->rules;
+    }
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
+    /**
+     * Add user
+     *
+     * @param \Shm\UserBundle\Entity\User $user
+     *
+     * @return Group
+     */
+    public function addUser(\Shm\UserBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \Shm\UserBundle\Entity\User $user
+     */
+    public function removeUser(\Shm\UserBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

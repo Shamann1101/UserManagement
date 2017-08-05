@@ -2,6 +2,7 @@
 
 namespace Shm\UserBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Shm\UserBundle\Entity\Group;
 use Shm\UserBundle\Form\GroupType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -32,11 +33,22 @@ class GroupController extends Controller
     /**
      * Create new Group Entity
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $enquiry = new Group();
 
         $form = $this->createForm(GroupType::class, $enquiry);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()
+                ->getManager();
+            $em->persist($enquiry);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('ShmUserBundle_groups'));
+        }
 
         return $this->render("@ShmUser/Group/new.html.twig", array(
             "form" => $form->createView(),

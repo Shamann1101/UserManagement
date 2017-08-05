@@ -3,10 +3,14 @@
 namespace Shm\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
+ * @ORM\HasLifecycleCallbacks
  */
 class User
 {
@@ -47,6 +51,13 @@ class User
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     protected $group;
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addPropertyConstraint('last_name', new NotBlank());
+        $metadata->addPropertyConstraint('first_name', new NotBlank());
+        $metadata->addPropertyConstraint('email', new Email());
+    }
 
     /**
      * Get id
@@ -200,5 +211,10 @@ class User
     public function getGroup()
     {
         return $this->group;
+    }
+
+    public function __construct()
+    {
+        $this->setDateCreate(new \DateTime());
     }
 }

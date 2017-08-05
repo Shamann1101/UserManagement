@@ -22,7 +22,7 @@ ShmUserBundle_group_new:
   path: /groups/new/
   defaults: { _controller: "ShmUserBundle:Group:new" }
   requirements:
-    methods: GET
+    methods: GET|POST
 
 ShmUserBundle_group_edit:
   path: /groups/{id}
