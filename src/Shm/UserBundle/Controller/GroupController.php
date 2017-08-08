@@ -2,56 +2,135 @@
 
 namespace Shm\UserBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Shm\UserBundle\Entity\Group;
-use Shm\UserBundle\Form\GroupType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Group controller.
+ *
+ */
 class GroupController extends Controller
 {
     /**
-     * Show and edit a Group Entity
+     * Lists all group entities.
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id = null)
+    public function indexAction(Request $request)
     {
+        $pc = new PageController();
+        $sort = $pc->sortPermission(array(
+            $request->query->get("sort"),
+            $request->query->get("direction")
+        ), "group");
+
         $em = $this->getDoctrine()->getManager();
 
-        $group = $em->getRepository("ShmUserBundle:Group")->find($id);
+        $groups = $em->createQueryBuilder()
+            ->select("g")
+            ->from("ShmUserBundle:Group", "g")
+            ->addOrderBy("g.".$sort["sort"], $sort["direction"])
+            ->getQuery()
+            ->getResult();
 
-        if (!$group) {
-            throw $this->createNotFoundException("Unable to find Group");
-        }
-
-        return $this->render("@ShmUser/Group/edit.html.twig", array(
-            "group" => $group,
+        return $this->render('ShmUserBundle:Group:index.html.twig', array(
+            'groups' => $groups,
         ));
     }
 
     /**
-     * Create new Group Entity
+     * Creates a new group entity.
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
-        $enquiry = new Group();
-
-        $form = $this->createForm(GroupType::class, $enquiry);
-
+        $group = new Group();
+        $form = $this->createForm('Shm\UserBundle\Form\GroupType', $group);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()
-                ->getManager();
-            $em->persist($enquiry);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($group);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ShmUserBundle_groups'));
+            return $this->redirectToRoute('groups_show', array('id' => $group->getId()));
         }
 
-        return $this->render("@ShmUser/Group/new.html.twig", array(
-            "form" => $form->createView(),
+        return $this->render('ShmUserBundle:Group:new.html.twig', array(
+            'group' => $group,
+            'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * Finds and displays a group entity.
+     *
+     */
+    public function showAction(Group $group)
+    {
+        $deleteForm = $this->createDeleteForm($group);
+
+        return $this->render('ShmUserBundle:Group:show.html.twig', array(
+            'group' => $group,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing group entity.
+     *
+     */
+    public function editAction(Request $request, Group $group)
+    {
+        $deleteForm = $this->createDeleteForm($group);
+        $editForm = $this->createForm('Shm\UserBundle\Form\GroupType', $group);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('groups_show', array('id' => $group->getId()));
+        }
+
+        return $this->render('ShmUserBundle:Group:edit.html.twig', array(
+            'group' => $group,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a group entity.
+     *
+     */
+    public function deleteAction(Request $request, Group $group)
+    {
+        $form = $this->createDeleteForm($group);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($group);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('groups_index');
+    }
+
+    /**
+     * Creates a form to delete a group entity.
+     *
+     * @param Group $group The group entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Group $group)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('groups_delete', array('id' => $group->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

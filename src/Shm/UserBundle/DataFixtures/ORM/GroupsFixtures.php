@@ -1,11 +1,12 @@
 <?php
 //src/Shm/UserBundle/DataFixtures/ORM/GroupsFixtures.php
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Shm\UserBundle\Entity\Group;
 
-class GroupsFixtures implements FixtureInterface
+class GroupsFixtures extends AbstractFixture implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -20,5 +21,13 @@ class GroupsFixtures implements FixtureInterface
         $manager->persist($group2);
 
         $manager->flush();
+
+        $this->addReference('group-1', $group1);
+        $this->addReference('group-2', $group2);
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 }

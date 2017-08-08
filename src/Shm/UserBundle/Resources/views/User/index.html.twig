@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Users list</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                    <a href="{{ path('users_index', {"sort":"id", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('users_index', {"sort":"id", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                </th>
+                <th>Last Name
+                    <a href="{{ path('users_index', {"sort":"last_name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"last_name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
+                <th>First Name
+                    <a href="{{ path('users_index', {"sort":"first_name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"first_name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
+                <th>Email
+                    <a href="{{ path('users_index', {"sort":"email", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"email", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
+                <th>State
+                    <a href="{{ path('users_index', {"sort":"state", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('users_index', {"sort":"state", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                </th>
+                <th>Create date
+                    <a href="{{ path('users_index', {"sort":"date_create", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"date_create", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('users_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{% if user.state %}Yes{% else %}No{% endif %}</td>
+                <td>{% if user.datecreate %}{{ user.datecreate|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('users_show', { 'id': user.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('users_edit', { 'id': user.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('users_new') }}">Create a new user</a>
+        </li>
+    </ul>
+{% endblock %}
