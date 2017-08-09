@@ -7,52 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PageController extends Controller
 {
+
     public function indexAction()
     {
         return $this->render('ShmUserBundle:Page:index.html.twig');
-    }
-
-    public function usersAction(Request $request)
-    {
-        $sort = $this->sortPermission(array(
-            $request->query->get("sort"),
-            $request->query->get("direction")
-        ), "user");
-
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->createQueryBuilder()
-            ->select("u")
-            ->from("ShmUserBundle:User", "u")
-            ->addOrderBy("u.".$sort["sort"], $sort["direction"])
-            ->getQuery()
-            ->getResult();
-
-        return $this->render('ShmUserBundle:Page:users.html.twig', array(
-            "users" => $users,
-        ));
-    }
-
-    public function groupsAction(Request $request)
-    {
-
-        $sort = $this->sortPermission(array(
-            $request->query->get("sort"),
-            $request->query->get("direction")
-        ), "group");
-
-        $em = $this->getDoctrine()->getManager();
-
-        $groups = $em->createQueryBuilder()
-            ->select("g")
-            ->from("ShmUserBundle:Group", "g")
-            ->addOrderBy("g.".$sort["sort"], $sort["direction"])
-            ->getQuery()
-            ->getResult();
-
-        return $this->render('ShmUserBundle:Page:groups.html.twig', array(
-            "groups" => $groups,
-        ));
     }
 
     /**
@@ -60,7 +18,7 @@ class PageController extends Controller
      * @param $type string
      * @return array|null
      */
-    private function sortPermission ($param, $type) {
+    public function sortPermission ($param, $type) {
 
         $accessed_types = ["group", "user"];
 

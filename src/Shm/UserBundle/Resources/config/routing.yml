@@ -1,3 +1,11 @@
+shm_user_groups:
+    resource: "@ShmUserBundle/Resources/config/routing/group.yml"
+    prefix:   /groups
+
+shm_user_users:
+    resource: "@ShmUserBundle/Resources/config/routing/user.yml"
+    prefix:   /users
+
 # src/Shm/UserBundle/Resources/config/routing.yml
 
 ShmUserBundle_homepage:
@@ -5,28 +13,3 @@ ShmUserBundle_homepage:
   defaults: { _controller: "ShmUserBundle:Page:index" }
   requirements:
     methods: GET
-
-ShmUserBundle_users:
-  path: /users/
-  defaults: { _controller: "ShmUserBundle:Page:users" }
-  requirements:
-    methods: GET
-
-ShmUserBundle_groups:
-  path: /groups/
-  defaults: { _controller: "ShmUserBundle:Page:groups" }
-  requirements:
-    methods: GET
-
-ShmUserBundle_group_new:
-  path: /groups/new/
-  defaults: { _controller: "ShmUserBundle:Group:new" }
-  requirements:
-    methods: GET|POST
-
-ShmUserBundle_group_edit:
-  path: /groups/{id}
-  defaults: { _controller: "ShmUserBundle:Group:edit" }
-  requirements:
-    methods: GET
-    id: \d+

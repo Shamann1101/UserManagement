@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GroupType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -14,8 +14,13 @@ class GroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('rules');
+            ->add('last_name')
+            ->add('first_name')
+            ->add('email')
+            ->add('state')
+            ->add('date_create')
+//            ->add('group')
+        ;
     }
     
     /**
@@ -24,7 +29,7 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Shm\UserBundle\Entity\Group'
+            'data_class' => 'Shm\UserBundle\Entity\User'
         ));
     }
 
@@ -33,7 +38,7 @@ class GroupType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'shm_userbundle_group';
+        return 'shm_userbundle_user';
     }
 
 

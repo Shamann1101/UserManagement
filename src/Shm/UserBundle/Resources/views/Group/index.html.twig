@@ -1,0 +1,51 @@
+{% extends '@ShmUser/corner.html.twig' %}
+
+{% block body %}
+    <h1>Groups list</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                    <a href="{{ path('groups_index', {"sort":"id", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('groups_index', {"sort":"id", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                </th>
+                <th>Name
+                    <a href="{{ path('groups_index', {"sort":"name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('groups_index', {"sort":"name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
+                <th>Rules
+                    <a href="{{ path('groups_index', {"sort":"rules", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('groups_index', {"sort":"rules", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for group in groups %}
+            <tr>
+                <td><a href="{{ path('groups_show', { 'id': group.id }) }}">{{ group.id }}</a></td>
+                <td>{{ group.name }}</td>
+                <td>{{ group.rules }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('groups_show', { 'id': group.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('groups_edit', { 'id': group.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('groups_new') }}">Create a new group</a>
+        </li>
+    </ul>
+{% endblock %}

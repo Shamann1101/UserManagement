@@ -1,0 +1,24 @@
+users_index:
+    path:     /
+    defaults: { _controller: "ShmUserBundle:User:index" }
+    methods:  GET
+
+users_show:
+    path:     /{id}
+    defaults: { _controller: "ShmUserBundle:User:show" }
+    methods:  GET
+
+users_new:
+    path:     /new
+    defaults: { _controller: "ShmUserBundle:User:new" }
+    methods:  [GET, POST]
+
+users_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ShmUserBundle:User:edit" }
+    methods:  [GET, POST]
+
+users_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ShmUserBundle:User:delete" }
+    methods:  DELETE

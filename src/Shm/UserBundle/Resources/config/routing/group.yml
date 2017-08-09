@@ -1,0 +1,24 @@
+groups_index:
+    path:     /
+    defaults: { _controller: "ShmUserBundle:Group:index" }
+    methods:  GET
+
+groups_show:
+    path:     /{id}
+    defaults: { _controller: "ShmUserBundle:Group:show" }
+    methods:  GET
+
+groups_new:
+    path:     /new
+    defaults: { _controller: "ShmUserBundle:Group:new" }
+    methods:  [GET, POST]
+
+groups_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "ShmUserBundle:Group:edit" }
+    methods:  [GET, POST]
+
+groups_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "ShmUserBundle:Group:delete" }
+    methods:  DELETE

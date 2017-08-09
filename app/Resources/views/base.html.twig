@@ -37,15 +37,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ path("ShmUserBundle_users") }}">View all Users</a></li>
+                            <li><a href="{{ path('users_index') }}">View all Users</a></li>
                             <li><a href="#">Add new <span class="glyphicon glyphicon-plus"></span></a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ path("ShmUserBundle_groups") }}">View all Groups</a></li>
-                            <li><a href="{{ path("ShmUserBundle_group_new") }}">Add new <span class="glyphicon glyphicon-plus"></span></a></li>
+                            <li><a href="{{ path('groups_index') }}">View all Groups</a></li>
+                            <li><a href="{{ path('groups_new') }}">Add new <span class="glyphicon glyphicon-plus"></span></a></li>
                         </ul>
                     </li>
                 {% endblock %}
