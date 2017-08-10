@@ -2,6 +2,7 @@
 
 namespace Shm\UserBundle\Form;
 
+use Shm\UserBundle\Entity\Group;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +20,7 @@ class UserType extends AbstractType
             ->add('email')
             ->add('state')
             ->add('date_create')
-//            ->add('group')
+            ->add('group')
         ;
     }
     
