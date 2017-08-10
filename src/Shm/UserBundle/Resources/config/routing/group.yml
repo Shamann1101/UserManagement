@@ -7,6 +7,8 @@ groups_show:
     path:     /{id}
     defaults: { _controller: "ShmUserBundle:Group:show" }
     methods:  GET
+    requirements:
+      id: \d+
 
 groups_new:
     path:     /new
@@ -17,8 +19,12 @@ groups_edit:
     path:     /{id}/edit
     defaults: { _controller: "ShmUserBundle:Group:edit" }
     methods:  [GET, POST]
+    requirements:
+      id: \d+
 
 groups_delete:
     path:     /{id}/delete
     defaults: { _controller: "ShmUserBundle:Group:delete" }
     methods:  DELETE
+    requirements:
+      id: \d+

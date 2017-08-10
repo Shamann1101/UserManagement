@@ -106,6 +106,10 @@ class GroupController extends Controller
      */
     public function deleteAction(Request $request, Group $group)
     {
+        if (count($group->getUsers())) {
+            return $this->redirectToRoute('groups_index');
+        }
+
         $form = $this->createDeleteForm($group);
         $form->handleRequest($request);
 

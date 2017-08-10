@@ -33,7 +33,7 @@ class UserController extends Controller
             ->getQuery()
             ->getResult();
 
-        return $this->render('user/index.html.twig', array(
+        return $this->render('ShmUserBundle:User:index.html.twig', array(
             'users' => $users,
         ));
     }
@@ -56,7 +56,7 @@ class UserController extends Controller
             return $this->redirectToRoute('users_show', array('id' => $user->getId()));
         }
 
-        return $this->render('user/new.html.twig', array(
+        return $this->render('ShmUserBundle:User:new.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
         ));
@@ -70,7 +70,7 @@ class UserController extends Controller
     {
         $deleteForm = $this->createDeleteForm($user);
 
-        return $this->render('user/show.html.twig', array(
+        return $this->render('ShmUserBundle:User:show.html.twig', array(
             'user' => $user,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -89,10 +89,10 @@ class UserController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('users_edit', array('id' => $user->getId()));
+            return $this->redirectToRoute('users_show', array('id' => $user->getId()));
         }
 
-        return $this->render('user/edit.html.twig', array(
+        return $this->render('ShmUserBundle:User:edit.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

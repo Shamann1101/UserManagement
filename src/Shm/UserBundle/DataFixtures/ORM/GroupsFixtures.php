@@ -22,8 +22,8 @@ class GroupsFixtures extends AbstractFixture implements FixtureInterface
 
         $manager->flush();
 
-        $this->addReference('group-1', $group1);
-        $this->addReference('group-2', $group2);
+        $this->addReference('group-0', $group1);
+        $this->addReference('group-1', $group2);
     }
 
     public function getOrder()

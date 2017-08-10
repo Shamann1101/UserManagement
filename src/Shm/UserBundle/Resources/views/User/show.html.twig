@@ -12,6 +12,7 @@
                 <th>Email</th>
                 <th>State</th>
                 <th>Date_create</th>
+                <th>Group</th>
             </tr>
             <tr>
                 <td>{{ user.id }}</td>
@@ -26,6 +27,7 @@
                     {% endif %}
                 </td>
                 <td>{% if user.datecreate %}{{ user.datecreate|date('l, F j, Y') }}{% endif %}</td>
+                <td>{{ user.group }}</td>
             </tr>
         </tbody>
     </table>

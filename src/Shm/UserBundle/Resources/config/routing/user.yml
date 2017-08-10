@@ -7,6 +7,8 @@ users_show:
     path:     /{id}
     defaults: { _controller: "ShmUserBundle:User:show" }
     methods:  GET
+    requirements:
+      id: \d+
 
 users_new:
     path:     /new
@@ -17,8 +19,12 @@ users_edit:
     path:     /{id}/edit
     defaults: { _controller: "ShmUserBundle:User:edit" }
     methods:  [GET, POST]
+    requirements:
+      id: \d+
 
 users_delete:
     path:     /{id}/delete
     defaults: { _controller: "ShmUserBundle:User:delete" }
     methods:  DELETE
+    requirements:
+      id: \d+
