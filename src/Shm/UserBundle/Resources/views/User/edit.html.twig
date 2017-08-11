@@ -1,21 +1,36 @@
-{% extends 'base.html.twig' %}
+{% extends '@ShmUser/corner.html.twig' %}
+
+{% block title %}User {{ user.lastName }} {{ user.firstName }} edit{% endblock %}
 
 {% block body %}
     <h1>User edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+    <div class="btn-toolbar" role="group" aria-label="Edit actions">
 
-    <ul>
-        <li>
-            <a href="{{ path('users_index') }}">Back to the list</a>
-        </li>
-        <li>
+        <div class="btn-group" role="group" aria-label="Save action">
+            {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <button class="btn btn-success">
+                <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>
+            </button>
+            {{ form_end(edit_form) }}
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Back action">
+            <a href="{{ path('users_index') }}">
+                <button type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
+                </button>
+            </a>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Delete action">
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <button class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </button>
             {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        </div>
+
+    </div>
 {% endblock %}
