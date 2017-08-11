@@ -18,8 +18,6 @@ class UserType extends AbstractType
             ->add('last_name')
             ->add('first_name')
             ->add('email')
-            ->add('state')
-            ->add('date_create')
             ->add('group')
         ;
     }

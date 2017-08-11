@@ -47,7 +47,7 @@ class User
     protected $date_create;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Group")
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="users")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     protected $group;
@@ -57,6 +57,7 @@ class User
         $metadata->addPropertyConstraint('last_name', new NotBlank());
         $metadata->addPropertyConstraint('first_name', new NotBlank());
         $metadata->addPropertyConstraint('email', new Email());
+        $metadata->addPropertyConstraint('group', new NotBlank());
     }
 
     /**
@@ -216,5 +217,6 @@ class User
     public function __construct()
     {
         $this->setDateCreate(new \DateTime());
+        $this->setState(false);
     }
 }
