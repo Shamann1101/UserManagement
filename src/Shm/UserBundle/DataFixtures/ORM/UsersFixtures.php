@@ -24,7 +24,7 @@ class UsersFixtures extends AbstractFixture implements FixtureInterface
         $user2->setLastName("Malkovich");
         $user2->setEmail("john@malkovich.com");
         $user2->setState(true);
-        $user1->setGroup($manager->merge($this->getReference("group-1")));
+        $user2->setGroup($manager->merge($this->getReference("group-1")));
         $manager->persist($user2);
 
         $manager->flush();
