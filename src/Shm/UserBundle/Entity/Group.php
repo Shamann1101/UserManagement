@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
+use Shm\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity
@@ -28,9 +29,9 @@ class Group
     protected $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
-    protected $rules;
+    protected $roles;
 
 
     /**
@@ -40,7 +41,7 @@ class Group
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('rules', new NotBlank());
+        $metadata->addPropertyConstraint('roles', new NotBlank());
         $metadata->addPropertyConstraint('name', new NotBlank());
         $metadata->addPropertyConstraint('name',  new Length(array(
             "max" => 10,
@@ -84,13 +85,13 @@ class Group
     /**
      * Set rules
      *
-     * @param integer $rules
+     * @param integer $roles
      *
      * @return Group
      */
-    public function setRules($rules)
+    public function setRoles($roles)
     {
-        $this->rules = $rules;
+        $this->roles = $roles;
 
         return $this;
     }
@@ -100,9 +101,9 @@ class Group
      *
      * @return integer
      */
-    public function getRules()
+    public function getRoles()
     {
-        return $this->rules;
+        return $this->roles;
     }
 
     public function __construct()

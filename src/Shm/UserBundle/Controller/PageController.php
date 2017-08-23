@@ -2,7 +2,7 @@
 
 namespace Shm\UserBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PageController extends Controller
@@ -11,6 +11,11 @@ class PageController extends Controller
     public function indexAction()
     {
         return $this->render('ShmUserBundle:Page:index.html.twig');
+    }
+
+    public function adminAction()
+    {
+        return new Response('<html><body>Admin page!</body></html>');
     }
 
     /**
@@ -40,7 +45,7 @@ class PageController extends Controller
 
         $accessed_sorts = [
             "direction" => ["ASC", "DESC"],
-            "group" => ["id", "name", "rules"],
+            "group" => ["id", "name", "roles"],
             "user" => ["id", "last_name", "first_name", "email", "state", "date_create", "group"],
         ];
 

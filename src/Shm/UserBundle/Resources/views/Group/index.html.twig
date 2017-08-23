@@ -17,9 +17,9 @@
                     <a href="{{ path('groups_index', {"sort":"name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
                     <a href="{{ path('groups_index', {"sort":"name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
-                <th>Rules
-                    <a href="{{ path('groups_index', {"sort":"rules", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
-                    <a href="{{ path('groups_index', {"sort":"rules", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                <th>Roles
+                    <a href="{{ path('groups_index', {"sort":"roles", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('groups_index', {"sort":"roles", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
                 </th>
                 <th>Actions</th>
             </tr>
@@ -29,7 +29,7 @@
             <tr>
                 <td><a href="{{ path('groups_show', { 'id': group.id }) }}">{{ group.id }}</a></td>
                 <td>{{ group.name }}</td>
-                <td>{{ group.rules }}</td>
+                <td>{{ group.roles }}</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Group actions">
                         <a class="btn btn-default" href="{{ path('groups_show', { 'id': group.id }) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
