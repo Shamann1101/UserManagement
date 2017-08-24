@@ -99,7 +99,7 @@ class Group
     /**
      * Get rules
      *
-     * @return integer
+     * @return string
      */
     public function getRoles()
     {

@@ -2,9 +2,11 @@
 
 namespace Shm\UserBundle\Controller;
 
+use Shm\UserBundle\Form\UserType;
 use Shm\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * User controller.
@@ -40,15 +42,19 @@ class UserController extends Controller
 
     /**
      * Creates a new user entity.
-     *
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm('Shm\UserBundle\Form\UserType', $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
