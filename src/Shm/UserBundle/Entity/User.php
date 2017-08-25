@@ -4,9 +4,7 @@ namespace Shm\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Shm\UserBundle\Entity\Group;
 
@@ -27,16 +25,20 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank()
      */
     protected $last_name;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank()
      */
     protected $first_name;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     protected $email;
 
@@ -53,10 +55,13 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="users")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     protected $group;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
      */
     protected $plainPassword;
 
@@ -64,15 +69,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=64)
      */
     protected $password;
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('last_name', new NotBlank());
-        $metadata->addPropertyConstraint('first_name', new NotBlank());
-        $metadata->addPropertyConstraint('plainPassword', new NotBlank());
-        $metadata->addPropertyConstraint('email', new Email());
-        $metadata->addPropertyConstraint('group', new NotBlank());
-    }
 
     /**
      * @return mixed
@@ -307,7 +303,7 @@ class User implements UserInterface, \Serializable
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return int (Role|string)[] The user roles
+     * @return array (Role|array)[] The user roles
      */
     public function getRoles()
     {

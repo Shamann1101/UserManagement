@@ -42,6 +42,4 @@ class GroupType extends AbstractType
     {
         return 'shm_userbundle_group';
     }
-
-
 }

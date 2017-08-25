@@ -5,9 +5,7 @@ namespace Shm\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
 use Shm\UserBundle\Entity\User;
 
 /**
@@ -25,11 +23,14 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=10)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     protected $roles;
 
@@ -38,15 +39,6 @@ class Group
      * @ORM\OneToMany(targetEntity="User", mappedBy="group")
      */
     protected $users;
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('roles', new NotBlank());
-        $metadata->addPropertyConstraint('name', new NotBlank());
-        $metadata->addPropertyConstraint('name',  new Length(array(
-            "max" => 10,
-        )));
-    }
 
     /**
      * Get id
@@ -99,16 +91,11 @@ class Group
     /**
      * Get rules
      *
-     * @return string
+     * @return array
      */
     public function getRoles()
     {
-        return $this->roles;
-    }
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
+        return array($this->roles);
     }
 
     /**
@@ -148,5 +135,10 @@ class Group
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
     }
 }
