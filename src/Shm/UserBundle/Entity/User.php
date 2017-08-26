@@ -64,11 +64,15 @@ class User implements UserInterface, \Serializable
      * @Assert\Length(max=4096)
      */
     protected $plainPassword;
-
     /**
      * @ORM\Column(type="string", length=64)
      */
     protected $password;
+
+    /**
+     */
+    protected $roles;
+
 
     /**
      * @return mixed

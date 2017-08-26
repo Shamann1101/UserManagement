@@ -19,3 +19,9 @@ ShmUserBundle_adminpage:
   defaults: { _controller: "ShmUserBundle:Page:admin" }
   requirements:
     methods: GET
+
+ShmUserBundle_loginpage:
+  path: /login
+  defaults: { _controller: "ShmUserBundle:Page:login" }
+  requirements:
+    methods: GET

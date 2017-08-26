@@ -29,7 +29,13 @@ security:
             anonymous: ~
             http_basic: ~
             provider: our_db_provider
+            form_login:
+                login_path: ShmUserBundle_loginpage
+                check_path: ShmUserBundle_loginpage
+#                default_target_path: ShmUserBundle_homepage
 
     access_control:
         # require ROLE_ADMIN for /admin*
         - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/admin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/, roles: ROLE_ADMIN }
