@@ -91,11 +91,12 @@ class Group
     /**
      * Get rules
      *
-     * @return array
+     * @return string
      */
     public function getRoles()
     {
-        return array($this->roles);
+        return $this->roles;
+//        return array($this->roles);
     }
 
     /**
