@@ -12,12 +12,12 @@ class GroupsFixtures extends AbstractFixture implements FixtureInterface
     {
         $group1 = new Group();
         $group1->setName("Admins");
-        $group1->setRoles(777);
+        $group1->setRoles("ROLE_ADMIN");
         $manager->persist($group1);
 
         $group2 = new Group();
         $group2->setName("Users");
-        $group2->setRoles(000);
+        $group2->setRoles("ROLE_USER");
         $manager->persist($group2);
 
         $manager->flush();
