@@ -4,6 +4,8 @@ namespace Shm\UserBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Shm\UserBundle\Entity\Group;
+use Shm\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -24,14 +26,27 @@ class PageController extends Controller
     {
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
-/*
-        if ($error) {
-            \Doctrine\Common\Util\Debug::dump($this->getDoctrine()->getManager()->find('ShmUserBundle:User', 2));
-            \Doctrine\Common\Util\Debug::dump($this->getDoctrine()->getManager()->find('ShmUserBundle:Group', 1));
-        }
-*/
+
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
+
+        if ($error) {
+            $this->get('session')->getFlashBag()->add(
+                'LastAuthenticationError',
+                $error
+            );
+/*
+            \Doctrine\Common\Util\Debug::dump($user = $this->getDoctrine()->getManager()->find('ShmUserBundle:User', 1));
+            echo '<br><br>';
+            \Doctrine\Common\Util\Debug::dump($group = $this->getDoctrine()->getManager()->find('ShmUserBundle:Group', 1));
+            echo '<br><br>';
+            print_r($user->getRoles());
+            echo '<br><br>';
+            echo $group->getRoles();
+
+            die();
+*/
+        }
 
         return $this->render('@ShmUser/Page/login.html.twig', array(
             'last_username' => $lastUsername,

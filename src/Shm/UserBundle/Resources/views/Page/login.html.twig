@@ -2,8 +2,14 @@
 {% extends 'ShmUserBundle::corner.html.twig' %}
 
 {% block body %}
+
     {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
     {% endif %}
 
     <form action="{{ path('ShmUserBundle_loginpage') }}" method="post">
