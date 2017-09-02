@@ -3,6 +3,7 @@
 namespace Shm\UserBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,7 +16,13 @@ class GroupType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('rules');
+            ->add('roles', ChoiceType::class, array(
+                'choices'  => array(
+                    'Admin' => 'ROLE_ADMIN',
+                    'Editor' => 'ROLE_EDITOR',
+                    'User' => 'ROLE_USER',
+                )
+            ));
     }
     
     /**
@@ -35,6 +42,4 @@ class GroupType extends AbstractType
     {
         return 'shm_userbundle_group';
     }
-
-
 }

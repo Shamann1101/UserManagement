@@ -13,3 +13,15 @@ ShmUserBundle_homepage:
   defaults: { _controller: "ShmUserBundle:Page:index" }
   requirements:
     methods: GET
+
+ShmUserBundle_adminpage:
+  path: /admin
+  defaults: { _controller: "ShmUserBundle:Page:admin" }
+  requirements:
+    methods: GET
+
+ShmUserBundle_loginpage:
+  path: /login
+  defaults: { _controller: "ShmUserBundle:Page:login" }
+  requirements:
+    methods: GET
