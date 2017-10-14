@@ -3,19 +3,17 @@
 
 namespace Shm\UserBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Shm\UserBundle\Entity\Group;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity(fields="email", message="Email already taken")
  */
-class User implements UserInterface, \Serializable
+class User extends BaseUser
 {
     /**
      * @ORM\Id
@@ -35,13 +33,6 @@ class User implements UserInterface, \Serializable
      * @Assert\NotBlank()
      */
     protected $first_name;
-
-    /**
-     * @ORM\Column(type="string", length=25, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
-    protected $email;
 
     /**
      * @ORM\Column(type="boolean")
@@ -65,10 +56,6 @@ class User implements UserInterface, \Serializable
      * @Assert\Length(max=4096)
      */
     protected $plainPassword;
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    protected $password;
 
     /**
      */
@@ -85,26 +72,11 @@ class User implements UserInterface, \Serializable
 
     /**
      * @param mixed $plainPassword
+     * @return $this|\FOS\UserBundle\Model\UserInterface|void
      */
     public function setPlainPassword($plainPassword)
     {
         $this->plainPassword = $plainPassword;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
     }
 
     /**
@@ -163,30 +135,6 @@ class User implements UserInterface, \Serializable
     public function getFirstName()
     {
         return $this->first_name;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**
@@ -262,39 +210,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * String representation of object
-     * @link http://php.net/manual/en/serializable.serialize.php
-     * @return string the string representation of the object or null
-     * @since 5.1.0
-     */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->email,
-            $this->password,
-        ));
-    }
-
-    /**
-     * Constructs the object
-     * @link http://php.net/manual/en/serializable.unserialize.php
-     * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
-     * @return void
-     * @since 5.1.0
-     */
-    public function unserialize($serialized)
-    {
-        list(
-            $this->id,
-            $this->email,
-            $this->password,
-            ) = unserialize($serialized);
-    }
-
-    /**
      * Returns the roles granted to the user.
      *
      * <code>
@@ -315,43 +230,13 @@ class User implements UserInterface, \Serializable
         return array($this->getGroup()->getRoles());
     }
 
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-        return null;
-    }
-
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
-
     public function __construct()
     {
+        parent::__construct();
         $this->setDateCreate(new \DateTime());
         $this->setState(false);
+        $this->setUsername($this->getEmail());
+        $this->setUsernameCanonical($this->getEmailCanonical());
+        $this->addRole("ROLE_ADMIN");
     }
 }

@@ -1,41 +1,26 @@
-# To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
 security:
-
     encoders:
-        Shm\UserBundle\Entity\User: bcrypt
+        FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_EDITOR:  ROLE_USER
-        ROLE_ADMIN:   [ROLE_USER, ROLE_EDITOR]
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        our_db_provider:
-            entity:
-                class: ShmUserBundle:User
-                property: username
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
 
     firewalls:
-#        admin_area:
-#            pattern:    ^/admin
-#            http_basic: ~
-
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
         main:
-            pattern:    ^/
-            anonymous: ~
-            http_basic: ~
-            provider: our_db_provider
+            pattern: ^/
             form_login:
-                login_path: ShmUserBundle_loginpage
-                check_path: ShmUserBundle_loginpage
-#                default_target_path: ShmUserBundle_homepage
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+            logout:       true
+            anonymous:    true
 
     access_control:
-        # require ROLE_ADMIN for /admin*
-        - { path: ^/admin, roles: ROLE_ADMIN }
-#        - { path: ^/admin, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/, roles: ROLE_ADMIN }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin$, role: ROLE_ADMIN }
+        #        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        #        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

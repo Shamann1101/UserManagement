@@ -29,7 +29,12 @@ class UserType extends AbstractType
             ->add('group')
         ;
     }
-    
+
+    public function getParent()
+    {
+        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+    }
+
     /**
      * {@inheritdoc}
      */
