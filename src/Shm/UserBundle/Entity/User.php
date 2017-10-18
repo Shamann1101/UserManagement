@@ -26,23 +26,18 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
      */
-    protected $last_name;
+    protected $lastName;
 
     /**
      * @ORM\Column(type="string", length=20)
      * @Assert\NotBlank()
      */
-    protected $first_name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $state;
+    protected $firstName;
 
     /**
      * @ORM\Column(type="date")
      */
-    protected $date_create;
+    protected $dateCreate;
 
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="users")
@@ -56,11 +51,6 @@ class User extends BaseUser
      * @Assert\Length(max=4096)
      */
     protected $plainPassword;
-
-    /**
-     */
-    protected $roles;
-
 
     /**
      * @return mixed
@@ -98,7 +88,7 @@ class User extends BaseUser
      */
     public function setLastName($lastName)
     {
-        $this->last_name = $lastName;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -110,7 +100,7 @@ class User extends BaseUser
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
     /**
@@ -122,7 +112,7 @@ class User extends BaseUser
      */
     public function setFirstName($firstName)
     {
-        $this->first_name = $firstName;
+        $this->firstName = $firstName;
 
         return $this;
     }
@@ -134,31 +124,7 @@ class User extends BaseUser
      */
     public function getFirstName()
     {
-        return $this->first_name;
-    }
-
-    /**
-     * Set state
-     *
-     * @param boolean $state
-     *
-     * @return User
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * Get state
-     *
-     * @return boolean
-     */
-    public function getState()
-    {
-        return $this->state;
+        return $this->firstName;
     }
 
     /**
@@ -170,7 +136,7 @@ class User extends BaseUser
      */
     public function setDateCreate($dateCreate)
     {
-        $this->date_create = $dateCreate;
+        $this->dateCreate = $dateCreate;
 
         return $this;
     }
@@ -182,7 +148,7 @@ class User extends BaseUser
      */
     public function getDateCreate()
     {
-        return $this->date_create;
+        return $this->dateCreate;
     }
 
     /**
@@ -209,34 +175,9 @@ class User extends BaseUser
         return $this->group;
     }
 
-    /**
-     * Returns the roles granted to the user.
-     *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return array (Role|array)[] The user roles
-     */
-    public function getRoles()
-    {
-        return array($this->getGroup()->getRoles());
-    }
-
     public function __construct()
     {
         parent::__construct();
         $this->setDateCreate(new \DateTime());
-        $this->setState(false);
-        $this->setUsername($this->getEmail());
-        $this->setUsernameCanonical($this->getEmailCanonical());
-        $this->addRole("ROLE_ADMIN");
     }
 }

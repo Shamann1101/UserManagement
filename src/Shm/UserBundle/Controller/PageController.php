@@ -82,7 +82,7 @@ class PageController extends Controller
         $accessed_sorts = [
             "direction" => ["ASC", "DESC"],
             "group" => ["id", "name", "roles"],
-            "user" => ["id", "last_name", "first_name", "email", "state", "date_create", "group"],
+            "user" => ["id", "username", "lastName", "firstName", "email", "state", "dateCreate", "group"],
         ];
 
         $accessed_permission = ["direction"];

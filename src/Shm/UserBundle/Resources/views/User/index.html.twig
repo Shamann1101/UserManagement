@@ -13,6 +13,10 @@
                     <a href="{{ path('users_index', {"sort":"id", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
                     <a href="{{ path('users_index', {"sort":"id", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
                 </th>
+                <th>Username
+                    <a href="{{ path('users_index', {"sort":"username", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"username", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
                 <th>Last Name
                     <a href="{{ path('users_index', {"sort":"last_name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
                     <a href="{{ path('users_index', {"sort":"last_name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
@@ -25,7 +29,7 @@
                     <a href="{{ path('users_index', {"sort":"email", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
                     <a href="{{ path('users_index', {"sort":"email", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
-                <th>State
+                <th>Enabled
                     <a href="{{ path('users_index', {"sort":"state", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
                     <a href="{{ path('users_index', {"sort":"state", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
                 </th>
@@ -41,11 +45,12 @@
         {% for user in users %}
             <tr>
                 <td><a href="{{ path('users_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                <td>{{ user.username }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    {% if user.state %}
+                    {% if user.enabled %}
                         <span class="glyphicon glyphicon-ok"></span>
                     {% else %}
                         <span class="glyphicon glyphicon-remove"></span>

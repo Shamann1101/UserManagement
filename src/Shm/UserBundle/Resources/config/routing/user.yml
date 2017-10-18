@@ -15,6 +15,11 @@ users_new:
     defaults: { _controller: "ShmUserBundle:User:new" }
     methods:  [GET, POST]
 
+users_register:
+    path:     /register
+    defaults: { _controller: "ShmUserBundle:User:register" }
+    methods:  [GET, POST]
+
 users_edit:
     path:     /{id}/edit
     defaults: { _controller: "ShmUserBundle:User:edit" }

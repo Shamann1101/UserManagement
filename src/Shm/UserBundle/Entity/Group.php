@@ -75,9 +75,9 @@ class Group
     }
 
     /**
-     * Set rules
+     * Set roles
      *
-     * @param integer $roles
+     * @param string $roles
      *
      * @return Group
      */
@@ -89,14 +89,13 @@ class Group
     }
 
     /**
-     * Get rules
+     * Get roles
      *
      * @return string
      */
     public function getRoles()
     {
         return $this->roles;
-//        return array($this->roles);
     }
 
     /**
