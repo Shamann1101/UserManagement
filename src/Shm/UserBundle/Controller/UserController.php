@@ -5,6 +5,7 @@ namespace Shm\UserBundle\Controller;
 use Shm\UserBundle\Entity\Group;
 use Shm\UserBundle\Form\UserType;
 use Shm\UserBundle\Entity\User;
+use Doctrine\ORM\Query\Expr;
 //use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -93,17 +94,48 @@ class UserController extends BaseController
             $request->query->get("direction")
         ), "user");
 
+        $currentPage = (int)$request->query->get("cur") ?: 1;
+        $maxResults = (int)$request->query->get("max") ?: 10;
+        $firstResult = ($currentPage - 1) * $maxResults;
+
         $em = $this->getDoctrine()->getManager();
+
+        $count = $em->createQueryBuilder()
+            ->select("u.id")
+            ->from("ShmUserBundle:User", "u")
+            ->getQuery()
+            ->getResult();
 
         $users = $em->createQueryBuilder()
             ->select("u")
             ->from("ShmUserBundle:User", "u")
             ->addOrderBy("u.".$sort["sort"], $sort["direction"])
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult();
 
+        $navBar = array(
+            "activate" => false,
+        );
+
+        if (($count = count($count)) > $maxResults) {
+            $navBar["activate"] = true;
+            $navBar["current"] = $currentPage;
+            $navBar["start"] = 1;
+            $navBar["end"] = ($count % $maxResults) ? floor($count / $maxResults) + 1 : ($count / $maxResults);
+            $navBar["prev"] = (($currentPage - 1) > 0) ?($currentPage - 1): 1;
+            $navBar["next"] = (($currentPage + 1) < $navBar["end"]) ?($currentPage + 1): $navBar["end"];
+        }
+
         return $this->render('ShmUserBundle:User:index.html.twig', array(
             'users' => $users,
+            'query' => array(
+                'max' => $maxResults,
+                'sort' => $sort["sort"],
+                'direction' => $sort["direction"],
+            ),
+            'navBar' => $navBar,
         ));
     }
 

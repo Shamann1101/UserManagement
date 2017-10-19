@@ -10,34 +10,37 @@
             <tr>
                 <th>
                     Id
-                    <a href="{{ path('users_index', {"sort":"id", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
-                    <a href="{{ path('users_index', {"sort":"id", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"id", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('users_index', {"sort":"id", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
                 </th>
                 <th>Username
-                    <a href="{{ path('users_index', {"sort":"username", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
-                    <a href="{{ path('users_index', {"sort":"username", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"username", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"username", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
                 <th>Last Name
-                    <a href="{{ path('users_index', {"sort":"last_name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
-                    <a href="{{ path('users_index', {"sort":"last_name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"lastName", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"lastName", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
                 <th>First Name
-                    <a href="{{ path('users_index', {"sort":"first_name", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
-                    <a href="{{ path('users_index', {"sort":"first_name", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"firstName", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"firstName", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
                 <th>Email
-                    <a href="{{ path('users_index', {"sort":"email", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
-                    <a href="{{ path('users_index', {"sort":"email", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"email", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"email", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
                 <th>Enabled
-                    <a href="{{ path('users_index', {"sort":"state", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
-                    <a href="{{ path('users_index', {"sort":"state", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"enabled", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-order"></span></a>
+                    <a href="{{ path('users_index', {"sort":"enabled", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-order-alt"></span></a>
                 </th>
                 <th>Create date
-                    <a href="{{ path('users_index', {"sort":"date_create", "direction":"ASC"}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
-                    <a href="{{ path('users_index', {"sort":"date_create", "direction":"DESC"}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                    <a href="{{ path('users_index', {"sort":"dateCreate", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"dateCreate", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
                 </th>
-                <th>Group</th>
+                <th>Group
+                    <a href="{{ path('users_index', {"sort":"group", "direction":"ASC", "max":query.max}) }}"><span class="glyphicon glyphicon-plusglyphicon glyphicon-sort-by-alphabet"></span></a>
+                    <a href="{{ path('users_index', {"sort":"group", "direction":"DESC", "max":query.max}) }}"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></a>
+                </th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -68,4 +71,29 @@
         {% endfor %}
         </tbody>
     </table>
+{% if navBar.activate %}
+    <div align="center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="{{ path('users_index', {"sort":query.sort, "direction":query.direction, "max":query.max, "cur":navBar.start}) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% for page in 1..navBar.end %}
+                    {% set status = "" %}
+                    {% if page == navBar.current %}
+                        {% set status = "active" %}
+                    {% endif %}
+                    <li class="{{ status }}"><a href="{{ path('users_index', {"sort":query.sort, "direction":query.direction, "max":query.max, "cur":page}) }}">{{ page }}</a></li>
+                {% endfor %}
+                <li>
+                    <a href="{{ path('users_index', {"sort":query.sort, "direction":query.direction, "max":query.max, "cur":navBar.end}) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endif %}
 {% endblock %}
