@@ -10,20 +10,26 @@ class GroupsFixtures extends AbstractFixture implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $group0 = new Group();
+        $group0->setName("Admin");
+        $group0->setRoles("ROLE_ADMIN");
+        $manager->persist($group0);
+
         $group1 = new Group();
-        $group1->setName("Admins");
-        $group1->setRoles(777);
+        $group1->setName("Editor");
+        $group1->setRoles("ROLE_EDITOR");
         $manager->persist($group1);
 
         $group2 = new Group();
-        $group2->setName("Users");
-        $group2->setRoles(000);
+        $group2->setName("User");
+        $group2->setRoles("ROLE_USER");
         $manager->persist($group2);
 
         $manager->flush();
 
-        $this->addReference('group-0', $group1);
-        $this->addReference('group-1', $group2);
+        $this->addReference('group-0', $group0);
+        $this->addReference('group-1', $group1);
+        $this->addReference('group-2', $group2);
     }
 
     public function getOrder()
