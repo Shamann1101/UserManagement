@@ -11,13 +11,13 @@ class GroupsFixtures extends AbstractFixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $group0 = new Group();
-        $group0->setName("Admin");
-        $group0->setRoles("ROLE_ADMIN");
+        $group0->setName("SuperAdmin");
+        $group0->setRoles("ROLE_SUPER_ADMIN");
         $manager->persist($group0);
 
         $group1 = new Group();
-        $group1->setName("Editor");
-        $group1->setRoles("ROLE_EDITOR");
+        $group1->setName("Admin");
+        $group1->setRoles("ROLE_ADMIN");
         $manager->persist($group1);
 
         $group2 = new Group();

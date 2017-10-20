@@ -8,7 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Shm\UserBundle\Entity\User;
 use Shm\UserBundle\Entity\Group;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UsersFixtures extends AbstractFixture implements FixtureInterface, ContainerAwareInterface
 {
@@ -22,6 +21,20 @@ class UsersFixtures extends AbstractFixture implements FixtureInterface, Contain
     public function load(ObjectManager $manager)
     {
         $encoder = $this->container->get('security.password_encoder');
+        $em = $this->container->get('doctrine')->getEntityManager('default');
+        $groups = $em->getRepository('ShmUserBundle:Group');
+
+        $admin = new User();
+        $admin->setEnabled(true);
+        $admin->setFirstName("admin");
+        $admin->setLastName("admin");
+        $admin->setEmail("admin@test.com");
+        $admin->setUsername("admin");
+        $password = $encoder->encodePassword($admin, 'admin');
+        $admin->setPassword($password);
+        $admin->setGroup($manager->merge($this->getReference("group-0")));
+        $admin->addRole($groups->findOneById($admin->getGroup())->getRoles());
+        $manager->persist($admin);
 
         for ($i = 0; $i < 10; $i++) {
             $user[$i] = new User();
@@ -32,27 +45,11 @@ class UsersFixtures extends AbstractFixture implements FixtureInterface, Contain
             $user[$i]->setUsername("test".$i);
             $password = $encoder->encodePassword($user[$i], 'test');
             $user[$i]->setPassword($password);
-            $user[$i]->setGroup($manager->merge($this->getReference("group-".($i % 3))));
+            $user[$i]->setGroup($manager->merge($this->getReference("group-".random_int(1, 2))));
+            $user[$i]->addRole($groups->findOneById($user[$i]->getGroup())->getRoles());
             $manager->persist($user[$i]);
-
         }
-/*
-        $user1 = new User();
-        $user1->setFirstName("Admin");
-        $user1->setLastName("Admin");
-        $user1->setEmail("mail@mail.com");
-        $user1->setState(true);
-        $user1->setGroup($manager->merge($this->getReference("group-0")));
-        $manager->persist($user1);
 
-        $user2 = new User();
-        $user2->setFirstName("John");
-        $user2->setLastName("Malkovich");
-        $user2->setEmail("john@malkovich.com");
-        $user2->setState(true);
-        $user2->setGroup($manager->merge($this->getReference("group-1")));
-        $manager->persist($user2);
-*/
         $manager->flush();
     }
 

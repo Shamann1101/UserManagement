@@ -3,24 +3,27 @@
 namespace Shm\UserBundle\Controller;
 
 use Shm\UserBundle\Entity\Group;
-use Shm\UserBundle\Form\UserType;
 use Shm\UserBundle\Entity\User;
-use Doctrine\ORM\Query\Expr;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Shm\UserBundle\Form\UserType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use FOS\UserBundle\FOSUserEvents;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\FOSUserEvents;
 
 /**
  * User controller.
  *
  */
-//class UserController extends Controller
 class UserController extends BaseController
 {
+    /**
+     * Spare method. Must be removed before release.
+     *
+     * @param Request $request
+     * @return null|RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function registerAction(Request $request)
     {
         /** @var $formFactory FactoryInterface */
