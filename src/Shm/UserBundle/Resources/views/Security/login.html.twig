@@ -1,0 +1,35 @@
+{# src/Shm/UserBundle/Resources/views/Page/index.html.twig #}
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends 'ShmUserBundle::corner.html.twig' %}
+
+{% block title %}Log In{% endblock %}
+
+{% block body %}
+    {% block fos_user_content %}
+        {% if error %}
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+    <div align="center">
+        <form class="form-inline" action="{{ path("fos_user_security_check") }}" method="post">
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+
+            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="username" />
+
+            <input type="password" id="password" name="_password" required="required" placeholder="password" />
+
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <label for="remember_me">{{ 'remember_me'|trans }}</label>
+
+            <input type="submit" id="_submit" name="_submit" value="{{ 'submit'|trans }}" />
+        </form>
+    </div>
+    <p>
+    {% endblock fos_user_content %}
+{% endblock %}
