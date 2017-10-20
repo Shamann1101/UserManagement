@@ -28,3 +28,14 @@ Out of scope: authentication, and roles management; forms and views
 
 ## Framework:
 any modern MVC PHP framework - Symfony, Yii, Laravel or similar
+
+## Install:
+```shell
+git clone git@github.com:Shamann1101/UserManagement.git
+cd UserManagement
+composer install
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:create
+php bin/console doctrine:fixtures:load
+php bin/console sever:run
+```
