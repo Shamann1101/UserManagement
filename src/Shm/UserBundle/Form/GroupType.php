@@ -18,9 +18,9 @@ class GroupType extends AbstractType
             ->add('name')
             ->add('roles', ChoiceType::class, array(
                 'choices'  => array(
-                    'Admin' => 'ROLE_ADMIN',
-                    'Editor' => 'ROLE_EDITOR',
                     'User' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN',
+                    'SuperAdmin' => 'ROLE_SUPER_ADMIN',
                 )
             ));
     }

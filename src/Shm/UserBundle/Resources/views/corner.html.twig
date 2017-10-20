@@ -2,11 +2,20 @@
 {% extends '::base.html.twig' %}
 
 {% block corner %}
+    <li>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+        <p class="navbar-text">
+            {{ '%username%'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+        </p>
+    </li>
+    <li>
         <a href="{{ path('fos_user_security_logout') }}">
-            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
         </a>
     {% else %}
-        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>    {% endif %}
+        <a href="{{ path('fos_user_security_login') }}">
+            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+        </a>
+    {% endif %}
+    </li>
 {% endblock %}

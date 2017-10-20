@@ -48,7 +48,10 @@ class User extends BaseUser
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *     max=4096,
+     *     groups = {"Default"}
+     * )
      */
     protected $plainPassword;
 

@@ -1,3 +1,5 @@
+# src/Shm/UserBundle/Resources/config/routing.yml
+
 shm_user_groups:
     resource: "@ShmUserBundle/Resources/config/routing/group.yml"
     prefix:   /groups
@@ -6,22 +8,14 @@ shm_user_users:
     resource: "@ShmUserBundle/Resources/config/routing/user.yml"
     prefix:   /users
 
-# src/Shm/UserBundle/Resources/config/routing.yml
-
 ShmUserBundle_homepage:
   path: /
   defaults: { _controller: "ShmUserBundle:Page:index" }
   requirements:
     methods: GET
 
-ShmUserBundle_adminpage:
-  path: /admin
-  defaults: { _controller: "ShmUserBundle:Page:admin" }
+ShmUserBundle_accessdenied:
+  path: /error403
+  defaults: { _controller: "ShmUserBundle:Page:accessDenied" }
   requirements:
     methods: GET
-
-#ShmUserBundle_loginpage:
-#  path: /login
-#  defaults: { _controller: "ShmUserBundle:Page:login" }
-#  requirements:
-#    methods: GET
