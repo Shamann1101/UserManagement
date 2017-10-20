@@ -39,3 +39,12 @@ php bin/console doctrine:schema:create
 php bin/console doctrine:fixtures:load
 php bin/console sever:run
 ```
+## Access:
+
+For SUPER_ADMIN_ROLES:
+- user: admin
+- password: admin
+
+You can also try other users with random roles:
+- user: test[0-9]
+- password: test
