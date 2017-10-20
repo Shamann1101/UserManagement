@@ -1,18 +1,19 @@
 <?php
+// src/Shm/UserBundle/Entity/User.php
 
 namespace Shm\UserBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints as Assert;
+use Shm\UserBundle\Entity\Group;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks
  */
-class User
+class User extends BaseUser
 {
     /**
      * @ORM\Id
@@ -23,41 +24,52 @@ class User
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank()
      */
-    protected $last_name;
+    protected $lastName;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank()
      */
-    protected $first_name;
-
-    /**
-     * @ORM\Column(type="string", length=20)
-     */
-    protected $email;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $state;
+    protected $firstName;
 
     /**
      * @ORM\Column(type="date")
      */
-    protected $date_create;
+    protected $dateCreate;
 
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="users")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     protected $group;
 
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     max=4096,
+     *     groups = {"Default"}
+     * )
+     */
+    protected $plainPassword;
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
     {
-        $metadata->addPropertyConstraint('last_name', new NotBlank());
-        $metadata->addPropertyConstraint('first_name', new NotBlank());
-        $metadata->addPropertyConstraint('email', new Email());
-        $metadata->addPropertyConstraint('group', new NotBlank());
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     * @return $this|\FOS\UserBundle\Model\UserInterface|void
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     /**
@@ -79,7 +91,7 @@ class User
      */
     public function setLastName($lastName)
     {
-        $this->last_name = $lastName;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -91,7 +103,7 @@ class User
      */
     public function getLastName()
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
     /**
@@ -103,7 +115,7 @@ class User
      */
     public function setFirstName($firstName)
     {
-        $this->first_name = $firstName;
+        $this->firstName = $firstName;
 
         return $this;
     }
@@ -115,55 +127,7 @@ class User
      */
     public function getFirstName()
     {
-        return $this->first_name;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set state
-     *
-     * @param boolean $state
-     *
-     * @return User
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * Get state
-     *
-     * @return boolean
-     */
-    public function getState()
-    {
-        return $this->state;
+        return $this->firstName;
     }
 
     /**
@@ -175,7 +139,7 @@ class User
      */
     public function setDateCreate($dateCreate)
     {
-        $this->date_create = $dateCreate;
+        $this->dateCreate = $dateCreate;
 
         return $this;
     }
@@ -187,7 +151,7 @@ class User
      */
     public function getDateCreate()
     {
-        return $this->date_create;
+        return $this->dateCreate;
     }
 
     /**
@@ -216,7 +180,7 @@ class User
 
     public function __construct()
     {
+        parent::__construct();
         $this->setDateCreate(new \DateTime());
-        $this->setState(false);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Shm\UserBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PageController extends Controller
@@ -11,6 +10,11 @@ class PageController extends Controller
     public function indexAction()
     {
         return $this->render('ShmUserBundle:Page:index.html.twig');
+    }
+
+    public function accessDeniedAction()
+    {
+        return $this->render('ShmUserBundle:Page:error403.html.twig');
     }
 
     /**
@@ -40,8 +44,8 @@ class PageController extends Controller
 
         $accessed_sorts = [
             "direction" => ["ASC", "DESC"],
-            "group" => ["id", "name", "rules"],
-            "user" => ["id", "last_name", "first_name", "email", "state", "date_create", "group"],
+            "group" => ["id", "name", "roles"],
+            "user" => ["id", "username", "lastName", "firstName", "email", "enabled", "dateCreate", "group"],
         ];
 
         $accessed_permission = ["direction"];

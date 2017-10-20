@@ -2,15 +2,22 @@
 
 namespace Shm\UserBundle\Controller;
 
+use Shm\UserBundle\Entity\Group;
 use Shm\UserBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Shm\UserBundle\Form\UserType;
+use Shm\UserBundle\Form\UserEditType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use FOS\UserBundle\Controller\RegistrationController as BaseController;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\FOSUserEvents;
 
 /**
  * User controller.
  *
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * Lists all user entities.
@@ -24,31 +31,69 @@ class UserController extends Controller
             $request->query->get("direction")
         ), "user");
 
+        $currentPage = (int)$request->query->get("cur") ?: 1;
+        $maxResults = (int)$request->query->get("max") ?: 10;
+        $firstResult = ($currentPage - 1) * $maxResults;
+
         $em = $this->getDoctrine()->getManager();
+
+        $count = $em->createQueryBuilder()
+            ->select("u.id")
+            ->from("ShmUserBundle:User", "u")
+            ->getQuery()
+            ->getResult();
 
         $users = $em->createQueryBuilder()
             ->select("u")
             ->from("ShmUserBundle:User", "u")
             ->addOrderBy("u.".$sort["sort"], $sort["direction"])
+            ->setFirstResult($firstResult)
+            ->setMaxResults($maxResults)
             ->getQuery()
             ->getResult();
 
+        $navBar = array(
+            "activate" => false,
+        );
+
+        if (($count = count($count)) > $maxResults) {
+            $navBar["activate"] = true;
+            $navBar["current"] = $currentPage;
+            $navBar["start"] = 1;
+            $navBar["end"] = ($count % $maxResults) ? floor($count / $maxResults) + 1 : ($count / $maxResults);
+            $navBar["prev"] = (($currentPage - 1) > 0) ?($currentPage - 1): 1;
+            $navBar["next"] = (($currentPage + 1) < $navBar["end"]) ?($currentPage + 1): $navBar["end"];
+        }
+
         return $this->render('ShmUserBundle:User:index.html.twig', array(
             'users' => $users,
+            'query' => array(
+                'max' => $maxResults,
+                'sort' => $sort["sort"],
+                'direction' => $sort["direction"],
+            ),
+            'navBar' => $navBar,
         ));
     }
 
     /**
      * Creates a new user entity.
-     *
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm('Shm\UserBundle\Form\UserType', $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+            $groups = $this->getDoctrine()->getRepository(Group::class);
+            $user->addRole($groups->findOneById($user->getGroup())->getRoles());
+            $user->setEnabled(true);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -83,7 +128,7 @@ class UserController extends Controller
     public function editAction(Request $request, User $user)
     {
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('Shm\UserBundle\Form\UserType', $user);
+        $editForm = $this->createForm('Shm\UserBundle\Form\UserEditType', $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

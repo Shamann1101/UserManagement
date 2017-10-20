@@ -107,7 +107,13 @@ class GroupController extends Controller
     public function deleteAction(Request $request, Group $group)
     {
         if (count($group->getUsers())) {
-            return $this->redirectToRoute('groups_index');
+
+            $this->get('session')->getFlashBag()->add(
+                'non-empty-notice',
+                'Can not delete a non-empty group!'
+            );
+
+            return $this->redirectToRoute('groups_show', array('id' => $group->getId()));
         }
 
         $form = $this->createDeleteForm($group);

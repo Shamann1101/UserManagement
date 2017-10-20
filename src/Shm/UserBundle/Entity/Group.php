@@ -4,10 +4,9 @@
 namespace Shm\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
+use Shm\UserBundle\Entity\User;
 
 /**
  * @ORM\Entity
@@ -24,28 +23,22 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=10)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
-    protected $rules;
+    protected $roles;
 
 
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="group")
      */
     protected $users;
-
-    public static function loadValidatorMetadata(ClassMetadata $metadata)
-    {
-        $metadata->addPropertyConstraint('rules', new NotBlank());
-        $metadata->addPropertyConstraint('name', new NotBlank());
-        $metadata->addPropertyConstraint('name',  new Length(array(
-            "max" => 10,
-        )));
-    }
 
     /**
      * Get id
@@ -82,32 +75,27 @@ class Group
     }
 
     /**
-     * Set rules
+     * Set roles
      *
-     * @param integer $rules
+     * @param string $roles
      *
      * @return Group
      */
-    public function setRules($rules)
+    public function setRoles($roles)
     {
-        $this->rules = $rules;
+        $this->roles = $roles;
 
         return $this;
     }
 
     /**
-     * Get rules
+     * Get roles
      *
-     * @return integer
+     * @return string
      */
-    public function getRules()
+    public function getRoles()
     {
-        return $this->rules;
-    }
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
+        return $this->roles;
     }
 
     /**
@@ -147,5 +135,10 @@ class Group
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
     }
 }
